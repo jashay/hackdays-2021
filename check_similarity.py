@@ -31,15 +31,9 @@ def is_similar(X,Y):
             c+= l1[i]*l2[i]
     similarity = c / float((sum(l1)*sum(l2))**0.5)
 
-    print(similarity)
+    # if(similarity >= 0.35):
+    #     return True
+    # else:
+    #     return False    
 
-    if(similarity >= 0.5):
-        return True
-    else:
-        return False    
-
-
-# X ="boeif Hello"
-# Y ="Hello boeif"
-
-# is_similar(X,Y)
+    return similarity
