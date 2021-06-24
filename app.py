@@ -4,43 +4,23 @@ from queue import PriorityQueue
 import pandas as pd
 from check_similarity import is_similar
 from collections import defaultdict
-from multiprocessing import Pool
+import multiprocessing as mp
 from object_detection import *
 import numpy as np
 
 
-#lst_in = []
+lst_in = []
 
 print("reading pandas")
 df = pd.read_csv("Final_Recipes_v2.csv")
 df_copy = pd.read_csv("Recipes.csv")
 df_image = pd.read_csv("Recipe_ingredients.csv")
 print("READ")
-q = PriorityQueue()
-
-def parallelize_dataframe(df, func, n_cores=4):
-    df_split = np.array_split(df, n_cores)
-    pool = Pool(n_cores)
-    df = pd.concat(pool.map(func, df_split))
-    pool.close()
-    pool.join()
-    return df
-
-def modded_make_queue(df):
-    for i in range(len(df["Ingredients"])):
-        print(df["Ingredients"].iloc[i])
-        score = is_similar(df["Ingredients"].iloc[i], ' '.join(lst_in))
-        print(score)
-        q.put((-score, i))
-    return df
 
 
 def make_queue(list_ing_recipe):
-    #global q
-    #global lst_in
-    #lst_in = list_ing_recipe
-    print("making queue")
 
+    print("making queue")
     q = PriorityQueue()
 
     for i in range(len(df["Ingredients"].dropna())):
@@ -51,10 +31,8 @@ def make_queue(list_ing_recipe):
         except:
             continue
 
-    #parallelize_dataframe(df, modded_make_queue)
 
     lst = [q.get() for _ in range(5)]
-    q = PriorityQueue()
     print(lst)
     res = []
 
@@ -86,7 +64,7 @@ def make_queue(list_ing_recipe):
         index = pair[1]
         d = {}
         d["title"]=df["Title"].iloc[index]
-        d["ingredients"]=df_copy["Ingredients"].iloc[index]
+        d["ingredients"]=df_copy["Ingredients"].iloc[index][1:-1].replace("'","")
         d["recipe"]=df["Instructions"].iloc[index]
         d["missing"]='\n'.join(set(get_missing(df["Ingredients"].iloc[index].split(), list_ing_recipe)))
         d["image_name"] = df_image["Image_Name"].iloc[index]

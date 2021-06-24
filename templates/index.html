@@ -8,6 +8,29 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    div#content {
+        display: none;
+      }
+
+    div#loading {
+      top: 200 px;
+      margin: auto;
+      position: absolute;
+      z-index: 1000;
+      width: 160px;
+      height: 24px;
+      background: url(loadingimage.gif) no-repeat;
+      cursor: wait;
+    }
+  </style>
+  <script type="text/javascript">// <![CDATA[
+        function preloader(){
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }//preloader
+        window.onload = preloader;
+// ]]></script>
 </head>
 <body>
 
@@ -23,6 +46,8 @@
       </br>
       </br>
       <button type="submit" class="btn btn-primary">Get Recipes</button>
+      <div id="loading"></div>
+      <div id="content">
     </form>
     {% if success %}
     {{ resp | safe }}
@@ -33,9 +58,6 @@
 
     </div>
   </div>
-
-</div>
-</div>
 
 </body>
 </html>
