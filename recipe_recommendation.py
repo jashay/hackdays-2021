@@ -2,9 +2,9 @@ from queue import PriorityQueue
 import pandas as pd
 from check_similarity import is_similar
 
-df = pd.read_csv("Final_Recipes.csv")
 
 def make_queue(list_ing_recipe):
+    df = pd.read_csv("Final_Recipes_v2.csv")
     q = PriorityQueue()
     for i in range(len(df["Ingredients"])):
         try:
@@ -17,9 +17,20 @@ def make_queue(list_ing_recipe):
     lst = [q.get() for _ in range(5)]
     d = {}
 
-    return [(df["Title"].iloc[i[1]],df["Ingredients"].iloc[i[1]]) for i in lst]
+    def get_missing(lst1, lst2):
+        for w in lst1:
+            if w not in lst2:
+                yield w
+
+    for pair in lst:
+        index = pair[1]
+        d["title"] = df["Title"].iloc[index]
+        d["ingredients"] = df["Ingredients"].iloc[index]
+        d["recipe"] = df["Recipe"].iloc[index]
+        d["missing"] = list(get_missing(list_ing_recipe, df["Ingredients"].iloc[index].split()))
+    return d
+
     #return [q.get() for _ in range(5)]
 
 
-print(make_queue(['ground allspice','white wine','white miso','Kosher','Chicken']))
-print("hi")
+print(make_queue(['allspice','white wine','white miso','Kosher','Chicken']))
