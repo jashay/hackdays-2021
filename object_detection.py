@@ -11,7 +11,7 @@ def detect_labels(img):
     client=boto3.client('rekognition')
 
     response = client.detect_labels(Image={"Bytes":img},
-        MaxLabels=10)
+        MaxLabels=20)
 
     print('Detected labels for test')
     print()

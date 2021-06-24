@@ -66,7 +66,7 @@ def make_queue(list_ing_recipe):
         d["title"]=df["Title"].iloc[index]
         d["ingredients"]=df_copy["Ingredients"].iloc[index][1:-1].replace("'","")
         d["recipe"]=df["Instructions"].iloc[index]
-        d["missing"]='\n'.join(set(get_missing(df["Ingredients"].iloc[index].split(), list_ing_recipe)))
+        d["missing"]="You seem to be missing some ingredients! Might have to get some" if set(get_missing(df["Ingredients"].iloc[index].split(), list_ing_recipe)) else 0
         d["image_name"] = df_image["Image_Name"].iloc[index]
         res.append(d)
     return res
@@ -94,7 +94,7 @@ def gen_div_from_dict(lst_dict):
         if flag:
             x = "active"
             flag = False
-        string_html += '<div class="tab-pane fade show '+x+'" id="list-'+str(count)+'" role="tabpanel" aria-labelledby="list-'+str(count)+'-list"><img src="static/'+d["image_name"]+'.jpg"><h3>Ingredients</h3><p>'+d["ingredients"]+'</p><h3>Recipe</h3><p>'+d["recipe"]+'</p><h3>Missing Ingredients</h3><p>'+d["missing"]+'</p></div>'
+        string_html += '<div class="tab-pane fade show '+x+'" id="list-'+str(count)+'" role="tabpanel" aria-labelledby="list-'+str(count)+'-list"><img src="static/'+d["image_name"]+'.jpg"><h3>Ingredients</h3><p>'+d["ingredients"]+'</p><h3>Recipe</h3><p>'+d["recipe"]+'</p><p>'+d["missing"]+'</p></div>'
         x = ""
         count += 1
     string_html += '</div></div></div>'
