@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap 4 Example</title>
+  <title>Photo Recipe</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -25,11 +25,7 @@
       <button type="submit" class="btn btn-primary">Get Recipes</button>
     </form>
     {% if success %}
-    {% for dict_item in resp %}
-      {% for key, value in dict_item.items() %}
-      <p>{{key}}: {{value}}<p>
-      {% endfor %}
-    {% endfor %}
+    {{ resp | safe }}
 
     {% endif %}
   </div>
