@@ -14,6 +14,7 @@ import numpy as np
 print("reading pandas")
 df = pd.read_csv("Final_Recipes_v2.csv")
 df_copy = pd.read_csv("Recipes.csv")
+df_image = pd.read_csv("Recipe_ingredients.csv")
 print("READ")
 q = PriorityQueue()
 
@@ -88,6 +89,7 @@ def make_queue(list_ing_recipe):
         d["ingredients"]=df_copy["Ingredients"].iloc[index]
         d["recipe"]=df["Instructions"].iloc[index]
         d["missing"]='\n'.join(set(get_missing(df["Ingredients"].iloc[index].split(), list_ing_recipe)))
+        d["image_name"] = df_image["Image_Name"].iloc[index]
         res.append(d)
     return res
 
@@ -99,6 +101,7 @@ def gen_div_from_dict(lst_dict):
     string_html = '</br></br><div class="row"><div class="col-4"><div class="list-group" id="list-tab" role="tablist">'
     for d in lst_dict:
         value = d["title"]
+        # print(d["image_name"])
         if flag:
             x = "active"
             flag = False
@@ -113,7 +116,7 @@ def gen_div_from_dict(lst_dict):
         if flag:
             x = "active"
             flag = False
-        string_html += '<div class="tab-pane fade show '+x+'" id="list-'+str(count)+'" role="tabpanel" aria-labelledby="list-'+str(count)+'-list"><h3>Ingredients</h3><p>'+d["ingredients"]+'</p><h3>Recipe</h3><p>'+d["recipe"]+'</p><h3>Missing Ingredients</h3><p>'+d["missing"]+'</p></div>'
+        string_html += '<div class="tab-pane fade show '+x+'" id="list-'+str(count)+'" role="tabpanel" aria-labelledby="list-'+str(count)+'-list"><img src="static/'+d["image_name"]+'.jpg"><h3>Ingredients</h3><p>'+d["ingredients"]+'</p><h3>Recipe</h3><p>'+d["recipe"]+'</p><h3>Missing Ingredients</h3><p>'+d["missing"]+'</p></div>'
         x = ""
         count += 1
     string_html += '</div></div></div>'
