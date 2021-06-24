@@ -1,6 +1,9 @@
 # hackdays-2021
 Food Recipe Assistant 
 
+# Description
+Upload a picture of your ingredients and get a list of reccomendations for possible recipes you can make!
+
 # Requirements
 boto3==1.17.99
 botocore==1.20.99
